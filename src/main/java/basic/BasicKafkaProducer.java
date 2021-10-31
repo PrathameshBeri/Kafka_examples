@@ -8,10 +8,12 @@ import org.apache.kafka.common.serialization.StringSerializer;
 
 import java.time.LocalDateTime;
 import java.util.Map;
+import java.util.Random;
 
 public class BasicKafkaProducer implements Runnable {
 
-    final String topicName = "getting_started";
+    final String topicName = "getting_started_4";
+    Random random = new Random();
 
     final Map<String, Object> config = Map.of(
             ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,"localhost:9092",
@@ -31,23 +33,24 @@ public class BasicKafkaProducer implements Runnable {
     public void run() {
         int i = 0;
         try{
-
+        while( i < 5){
             final String keys = "myKey";
             final String value = LocalDateTime.now().toString();
             System.out.format("publishing a record with value %s at time %s \n", keys, value);
             final Callback callback = (metadata, exception) -> {
                 System.out.format("Published with metadata: %s  and error: %s \n", metadata, exception);
             };
-
-            producer.send(new ProducerRecord<>(topicName, keys, value), callback);
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
+            Stock basic = new Stock("PUB",random.nextDouble()+ 100,LocalDateTime.now().toString());
+            producer.send(new ProducerRecord<>(topicName, keys, basic.toString()), callback);
+            i++;
+            Thread.sleep(random.nextInt(1000) + 1000);
+        }} catch (InterruptedException e) {
             e.printStackTrace();
         }
 
     }
 
-    void shutDown(){
+    void shutdown(){
         producer.close();
     }
 }
