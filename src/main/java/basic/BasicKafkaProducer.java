@@ -16,7 +16,7 @@ import java.util.Random;
 
 public class BasicKafkaProducer implements Runnable {
 
-    final String topicName = "getting_started_7";
+    final String topicName = "getting_started_10";
     Random random = new Random();
 
     final Map<String, Object> config = Map.of(

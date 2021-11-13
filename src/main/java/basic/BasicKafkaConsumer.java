@@ -15,7 +15,7 @@ import java.util.Set;
 
 public class BasicKafkaConsumer implements Runnable {
 
-    final String topicName = "getting_started_7";
+    final String topicName = "getting_started_10";
 
     final Map<String, Object> config = Map.of(
             ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,
