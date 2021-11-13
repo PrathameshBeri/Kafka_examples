@@ -1,9 +1,28 @@
-package basic;
+package entities;
 
-public class Stock {
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
+
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME,
+                include =  JsonTypeInfo.As.EXISTING_PROPERTY,
+                property = "type")
+@JsonSubTypes(
+        {
+                @JsonSubTypes.Type(value = EquityStock.class, name = EquityStock.TYPE),
+                @JsonSubTypes.Type(value = BondStock.class, name = BondStock.TYPE)
+        }
+)
+public abstract class Stock {
+
+    @JsonProperty("stock_name")
     String name;
+
+    @JsonProperty("stock_price")
     Double price;
+
+    @JsonProperty("price_time")
     String time;
 
     public Stock(String name, Double price, String time) {
@@ -35,6 +54,8 @@ public class Stock {
     public void setTime(String time) {
         this.time = time;
     }
+
+    public abstract String getType();
 
     @Override
     public String toString() {

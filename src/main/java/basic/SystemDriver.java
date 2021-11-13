@@ -1,16 +1,14 @@
 package basic;
 
 import com.google.common.io.Files;
+import entities.Stock;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.apache.kafka.clients.producer.KafkaProducer;
-import org.apache.kafka.common.record.Record;
 import org.sparkproject.guava.base.Charsets;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
 public class SystemDriver {
@@ -37,12 +35,11 @@ public class SystemDriver {
             Thread.sleep(1500);
         }
 
-        File f =  new File("./test.csv");
+        File f =  new File("./test1.json");
         StringBuffer buff = new StringBuffer();
-        for(Object o : kConsumer.recs){
+        for(ConsumerRecord o : kConsumer.recs){
             System.out.println(o.toString());
-            ConsumerRecord<String, Object> r = (ConsumerRecord)o;
-            Stock s = (Stock)r.value();
+            Stock s = (Stock)o.value();
             buff.append(s.toCSVString());
             buff.append("\n");
         }

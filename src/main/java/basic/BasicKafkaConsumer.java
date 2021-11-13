@@ -1,6 +1,9 @@
 package basic;
 
+import entities.Stock;
+import entities.StockDeserializer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 
@@ -12,7 +15,7 @@ import java.util.Set;
 
 public class BasicKafkaConsumer implements Runnable {
 
-    final String topicName = "getting_started_4";
+    final String topicName = "getting_started_7";
 
     final Map<String, Object> config = Map.of(
             ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,
@@ -20,7 +23,7 @@ public class BasicKafkaConsumer implements Runnable {
             ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,
             StringDeserializer.class.getName(),
             ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,
-            StringDeserializer.class.getName(),
+            StockDeserializer.class.getName(),
             ConsumerConfig.GROUP_ID_CONFIG,
             "basic_consumer_sample",
             ConsumerConfig.AUTO_OFFSET_RESET_CONFIG,
@@ -29,12 +32,12 @@ public class BasicKafkaConsumer implements Runnable {
             false
     );
 
-    KafkaConsumer<String, Object> consumer;
+    KafkaConsumer<String, Stock> consumer;
 
-    List<Object> recs = new ArrayList<>();
+    List<ConsumerRecord<String, Stock>> recs = new ArrayList<>();
 
     BasicKafkaConsumer(){
-        consumer = new KafkaConsumer<String, Object>(config);
+        consumer = new KafkaConsumer<String, Stock>(config);
     }
 
     @Override
