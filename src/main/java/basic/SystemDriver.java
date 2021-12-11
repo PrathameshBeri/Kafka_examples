@@ -54,5 +54,9 @@ public class SystemDriver {
         es.awaitTermination(2, TimeUnit.MINUTES);
         es.shutdown();
 
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            System.out.println("Shutting down the system");
+        }));
+
     }
 }
